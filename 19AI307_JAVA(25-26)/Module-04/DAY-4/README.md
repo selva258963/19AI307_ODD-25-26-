@@ -1,32 +1,29 @@
-
-# Ex.No:4(D) DESIGN PATTERN -- ABSTRACT FACTORY
+# Ex.No:4(E) DESIGN PATTERN  ---- BEHAVIOUR PATTERN
 
 ## QUESTION:
-You’re creating a cross-platform UI tool using the Abstract Factory pattern. Implement factories to create Button and Checkbox for "dark" and "light" themes. Let the user choose the theme, then generate UI components and display their types
-<img width="357" height="123" alt="image" src="https://github.com/user-attachments/assets/ee651ca7-9034-4186-8aa2-296b64d2a5d6" />
-
-
+Design a program where a Product model stores item info, and the view displays it. Implement a controller to update product price and refresh the view automatically.
 
 ## AIM:
-To implement the Abstract Factory Design Pattern in Java by creating themed UI components using different factories based on user input.
+To implement a behavioral design pattern in Java using Model–View–Controller (MVC), where the controller updates the model and refreshes the view dynamically.
+
 
 ## ALGORITHM :
-1.Start the program and read the theme input from the user.
+1.Start the program and read product details from the user.
 
-2.Based on the theme, create the corresponding factory object (DarkThemeFactory or LightThemeFactory).
+2.Create a Product model class to store name, price, and code.
 
-3.Use the selected factory to create a Button and a Checkbox object.
+3.Create a ProductView class to display product details.
 
-4.Call the render() method on both objects to display their theme-specific outputs.
+4.Create a ProductController class to modify price and update the view.
 
-5.End the program.
+5.Display product details before and after price update, then end the program.
 
 
 
 ## PROGRAM:
  ```
 /*
-Program to implement a Abstract Factory Pattern using Java
+Program to implement a Behaviour Pattern using Java
 Developed by: Selvamuthu Kumaran V
 RegisterNumber: 212222040151
 */
@@ -34,90 +31,84 @@ RegisterNumber: 212222040151
 
 ## SOURCE CODE:
 ```java
-import java.util.*;
+import java.util.Scanner;
 
-interface Button {
-    void render();
-}
+public class ProductManagementSystem {
 
-interface Checkbox {
-    void render();
-}
+    // ===== Model =====
+    static class Product {
+        private String name;
+        private double price;
+        private String code;
 
-// Concrete Products for Dark Theme
-class DarkButton implements Button {
-    public void render() {
-        System.out.println("Dark Button created");
-    }
-}
-
-class DarkCheckbox implements Checkbox {
-    public void render() {
-        System.out.println("Dark Checkbox created");
-    }
-}
-
-// Concrete Products for Light Theme
-class LightButton implements Button {
-    public void render() {
-        System.out.println("Light Button created");
-    }
-}
-
-class LightCheckbox implements Checkbox {
-    public void render() {
-        System.out.println("Light Checkbox created");
-    }
-}
-
-// Abstract Factory
-interface UIFactory {
-    Button createButton();
-    Checkbox createCheckbox();
-}
-
-// Concrete Factories
-class DarkThemeFactory implements UIFactory {
-    public Button createButton() {
-        return new DarkButton();
-    }
-    public Checkbox createCheckbox() {
-        return new DarkCheckbox();
-    }
-}
-
-class LightThemeFactory implements UIFactory {
-    public Button createButton() {
-        return new LightButton();
-    }
-    public Checkbox createCheckbox() {
-        return new LightCheckbox();
-    }
-}
-
-// Main class
-public class prog {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String theme = sc.nextLine().trim().toLowerCase();
-
-        UIFactory factory = null;
-
-        if (theme.equals("dark")) {
-            factory = new DarkThemeFactory();
-        } else if (theme.equals("light")) {
-            factory = new LightThemeFactory();
-        } else {
-            System.out.println("Invalid theme");
-            sc.close();
-            return;
+        public Product(String name, double price, String code) {
+            this.name = name;
+            this.price = price;
+            this.code = code;
         }
 
-        Button button = factory.createButton();
-        Checkbox checkbox = factory.createCheckbox();
+        public String getName() {
+            return name;
+        }
 
-        button.render();
-        checkbox.render();
+        public double getPrice() {
+            return price;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setPrice(double price) {
+            this.price = price;
+        }
+    }
+
+    static class ProductView {
+        public void displayProduct(String name, double price, String code) {
+            System.out.println("--- Product Details ---");
+            System.out.println("Name : " + name);
+            System.out.println("Price: " + price);
+            System.out.println("Code : " + code);
+        }
+    }
+
+    static class ProductController {
+        private Product product;
+        private ProductView view;
+
+        public ProductController(Product product, ProductView view) {
+            this.product = product;
+            this.view = view;
+        }
+
+        public void updateView() {
+            view.displayProduct(product.getName(), product.getPrice(), product.getCode());
+        }
+
+        public void updatePrice(double newPrice) {
+            product.setPrice(newPrice);
+            updateView();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String name = sc.nextLine();
+        double price = sc.nextDouble();
+        sc.nextLine(); 
+        String code = sc.nextLine();
+        double newPrice = sc.nextDouble();
+
+        
+        Product product = new Product(name, price, code);
+        ProductView view = new ProductView();
+        ProductController controller = new ProductController(product, view);
+
+        controller.updateView();
+
+        controller.updatePrice(newPrice);
 
         sc.close();
     }
@@ -126,11 +117,13 @@ public class prog {
 
 
 
+
+
 ## OUTPUT:
-<img width="1305" height="426" alt="image" src="https://github.com/user-attachments/assets/6d667a53-9338-49e0-8c27-fc049974b791" />
+<img width="1292" height="447" alt="image" src="https://github.com/user-attachments/assets/60df47a8-3ff8-40df-be81-5463ca5601ce" />
+
 
 
 
 ## RESULT:
-The program successfully implemented the Abstract Factory design pattern in Java, creating UI components based on selected theme using appropriate factory classes.
-
+The program successfully implemented a behavioral design pattern using MVC, where the controller updates product price and automatically refreshes the view.
