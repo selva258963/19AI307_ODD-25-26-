@@ -34,8 +34,8 @@ To write a Java program to implement Classes and Objects using a Car class and d
  ```
 /*
 Program to implement a Class and Objects using Java
-Developed by: GANESH S
-RegisterNumber: 212222040042
+Developed by: Selvamuthu Kumaran V
+RegisterNumber: 212222040151
 */
 ```
 
@@ -72,3 +72,4 @@ public class prog {
 
 ## RESULT:
 The program to implement a class and objects using Java was successfully executed and the details of two car objects were displayed.
+
